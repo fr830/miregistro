@@ -357,3 +357,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Hide API Keys
+Project.Aws.Backend/**/rds_config.py
