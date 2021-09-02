@@ -75,8 +75,7 @@ VALUES (3, 4, NOW(), '2022-12-01');
 SELECT U.Usuario, R.IdRol, R.Nombre
 FROM usuario_rol Ur
 INNER JOIN usuario U ON U.IdUsuario = Ur.IdUsuario
-INNER JOIN rol R ON R.IdRol = Ur.IdRol
-WHERE Ur.FechaFin >= NOW();
+INNER JOIN rol R ON R.IdRol = Ur.IdRol;
 
 UPDATE rol SET Nombre = "Gestor caja" WHERE IdRol = "6";
 
