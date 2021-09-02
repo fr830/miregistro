@@ -2,6 +2,7 @@ import sys
 import logging
 import rds_config
 import pymysql
+import json
 
 #rds settings
 rds_host  = "instance-aws-free-tier.c9qdfbtzelbq.us-east-2.rds.amazonaws.com"
@@ -24,7 +25,7 @@ logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
 def handler(event):    
     #This function fetches content from MySQL RDS instance
 
-    result = []
+    response = []
     item_count = 0
     sql = "SELECT * from usuario LIMIT 100"
     
@@ -33,16 +34,29 @@ def handler(event):
 
         for row in cur:
             item_count += 1
-            logger.info(row)
-            result.append(row)
-        
-        print(result)
-        conn.commit()
-        cur.close()
+            response.append(row)
+            
+    conn.commit()
+    
+    body = buildBody('GET', 'SUCCESS', response)
+    
+    return buildResponse(200, body)
 
-    return result
+def buildBody(operation, message, item):
+    return {
+      'Operation': operation,
+      'Message': message,
+      'Item': item
+    }
 
+def buildResponse(statusCode, body):
+    return {
+        'statusCode': statusCode,
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': json.dumps(body) 
+    }  
+    
 def main(event, context):
-    handler(event)
-
-main("", "")
+    return handler(event)
