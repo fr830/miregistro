@@ -360,3 +360,6 @@ MigrationBackup/
 
 # Hide API Keys
 Project.Aws.Backend/**/rds_config.py
+
+# Ignore Packages
+**/package
