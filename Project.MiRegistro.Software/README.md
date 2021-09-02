@@ -1,4 +1,4 @@
-<h1 align="center"> Mi Registro</h1>
+<h1 align="center"> Mi Registro Software</h1>
   
 <div align="center">
 
