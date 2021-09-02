@@ -359,7 +359,7 @@ MigrationBackup/
 .ionide/
 
 # Hide API Keys
-Project.Aws.Backend/**/rds_config.py
+Project.Backend/**/rds_config.py
 
 # Ignore Packages
 **/package
