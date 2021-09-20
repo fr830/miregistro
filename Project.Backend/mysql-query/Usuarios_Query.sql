@@ -56,13 +56,14 @@ SELECT * FROM perfil;
 SELECT * FROM empleado;
 
 /*Autentificar*/
-SELECT * FROM usuario WHERE usuario='noelicalafate' AND contraseña='12345' AND activo = 1 LIMIT 1;
+SELECT * FROM usuario WHERE usuario='noelicalafate' AND contraseña='registrocalafate' AND activo = 1 LIMIT 1;
 
 SELECT U.IdUsuario, P.IdPerfil,  U.Usuario, U.Email, U.activo, P.Nombre, P.Apellido, P.nick, P.FechaCumpleaños, Er.nombre
 FROM usuario U
 JOIN perfil P ON P.IdPerfil = U.FkIdPerfil
 JOIN empleado E ON E.FkIdUsuario = U.IdUsuario
-JOIN empresa Er ON Er.IdEmpresa = E.FkIdEmpresa;
+JOIN empresa Er ON Er.IdEmpresa = E.FkIdEmpresa
+WHERE U.IdUsuario = '1' AND U.usuario = 'noelicalafate';
 
 ALTER TABLE usuario AUTO_INCREMENT = 1;
 DELETE FROM usuario WHERE idusuario = 2;
