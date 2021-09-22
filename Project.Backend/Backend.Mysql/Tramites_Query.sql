@@ -44,7 +44,7 @@ SELECT * FROM categoriaerror;
 INSERT INTO tramite (Dominio, FkIdCategoria, FkIdEmpresa, Fecha, Observaciones)
 VALUES 
 (
-	'AA333XX', /* Dominio */
+	'AA000XX', /* Dominio */
 	1 /* IdCategoria */,
     1 /* IdEmpresa */,
     NOW() /* Fecha */,
@@ -53,23 +53,26 @@ VALUES
 
 SET @last_id_tramite = LAST_INSERT_ID();
 
-ALTER TABLE tramite  AUTO_INCREMENT = 1;
-SELECT * FROM tramite;
-DELETE FROM tramite WHERE IdTramite < 10000;
-DELETE FROM tramite_proceso WHERE IdTramite < 10000;
-
 /* Procesos */
 INSERT INTO tramite_proceso
 VALUES 
 (
-	4 /* TramiteId */,
+	last_insert_id() /* TramiteId */,
     3 /* IdEtapa*/,
     1 /* IdEmpleado */,
     True /* Estado actual */
 );
 
+ALTER TABLE tramite  AUTO_INCREMENT = 1;
+DELETE FROM tramite WHERE tramite.IdTramite = 2183;
+DELETE FROM tramite WHERE IdTramite < 10000;
+DELETE FROM tramite_proceso WHERE IdTramite < 10000;
+
+SELECT count(*) FROM tramite;
+
 UPDATE tramite_proceso SET FkIdEmpleado = 2 WHERE IdTramite = 1 AND IdEtapaTramite = 1;
-SELECT * FROM tramite_proceso;
+SELECT * FROM tramite_proceso WHERE IdTramite = 2183;
+SELECT COUNT(*) FROM tramite_proceso;
 
 /* Errores */
 INSERT INTO tramite_error
@@ -100,9 +103,23 @@ FROM tramite T
 	JOIN empleado E ON E.IdEmpleado = Tp.FkIdEmpleado
 	JOIN usuario U ON U.IdUsuario = E.FkIdUsuario
 	JOIN perfil P ON P.IdPerfil = U.FkIdPerfil
-GROUP BY T.IdTramite;
+GROUP BY T.IdTramite
+LIMIT 10;
 
 SELECT COUNT(*) FROM tramite;
+
+SELECT T.IdTramite AS ID, T.Dominio AS Dominio, Ct.Nombre AS Categoria, T.Observaciones AS Observaciones
+                 FROM tramite T
+					JOIN categoriatramite Ct ON Ct.IdCategoriaTramite = T.FkIdCategoria
+                 GROUP BY T.IdTramite;
+                 
+SELECT * FROM tramite WHERE tramite.IdTramite > 2180;
+
+SET SQL_SAFE_UPDATES=0;
+
+DELETE FROM tramite WHERE Observaciones = "Sin observaciones pendientes";
+ALTER TABLE tramite AUTO_INCREMENT = 1; 
+
 
 
 
